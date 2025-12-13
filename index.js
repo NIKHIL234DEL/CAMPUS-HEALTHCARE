@@ -1,32 +1,35 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
-
+// Middleware
+app.use(express.json()); // Allows us to read JSON data
 app.use(cors());
-app.use(express.json());
 
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 
-app.get('/', (req, res) => {
-  res.send('✅ Backend is working!');
-});
-
+// Database Connection
 const connectDB = async () => {
   try {
-    
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ MongoDB Connected");
+    console.log("✅ MongoDB Connected Successfully");
   } catch (err) {
-    console.error("❌ DB Connection Error:", err);
+    console.error("❌ MongoDB Connection Error:", err);
   }
 };
 
+// Connect to DB
+connectDB();
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`🚀 Server started on port ${PORT}`);
+// Test Route
+app.get('/', (req, res) => {
+  res.send("API is Running...");
 });
+
+// Start Server
+const PORT = 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
