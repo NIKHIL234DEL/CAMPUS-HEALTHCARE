@@ -11,6 +11,11 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+// Auth Routes
+app.use('/api/auth', require('./routes/auth'));
+
+// NEW: Issue Routes 👇
+app.use('/api/issues', require('./routes/issues'));
 
 // Database Connection
 const connectDB = async () => {
